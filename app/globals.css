@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ * SF Pro Display, self-hosted so every visitor sees it — not just the
+ * machines that happen to have Apple's font installed. Subset to Latin:
+ * ~27 KB per weight instead of ~300 KB.
+ *
+ * Only these three upright faces exist in Apple's separate SF Pro download;
+ * SemiBold ships italic-only. The 700 face therefore claims `600 700`, so
+ * `font-semibold` renders the real Bold file instead of a synthesised weight.
+ * In other words 600 and 700 look identical here, by design.
+ * ------------------------------------------------------------------ */
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/sf-pro-display-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/sf-pro-display-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/sf-pro-display-700.woff2") format("woff2");
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------------------------------------------ *
+ * Theme tokens as Tailwind colors, so they're usable as className
+ * utilities: bg-bg, bg-tile, text-fg, text-muted, bg-control, border-line.
+ * Light is active; dark applies only under <html data-theme="dark">.
+ * OS preference does not auto-flip it.
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-bg: #ffffff;
+  --color-tile: #f5f5f7;
+  --color-card: #ffffff;
+  --color-fg: #1d1d1f;
+  --color-muted: #86868b;
+  --color-control: rgba(0, 0, 0, 0.05);
+  --color-line: rgba(0, 0, 0, 0.08);
+
+  /* Fonts. `font-sans` is the document default (Tailwind resolves
+   * --default-font-family from it), `font-display` the headline face and
+   * `font-inter` the wave cards' face.
+   *
+   * No "SF Pro Text" here on purpose: it is a separate Apple download that
+   * almost nobody has, so naming it first only ever cost a wasted lookup.
+   * `system-ui` is the better answer for body copy anyway — on Apple devices
+   * it IS San Francisco, and it switches optical size automatically (Text
+   * shapes when small, Display when large), which no static file can do. */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "SF Pro Display", system-ui, -apple-system, sans-serif;
+  --font-inter: var(--font-inter-next), system-ui, sans-serif;
+}
+
+[data-theme="dark"] {
+  --color-bg: #000000;
+  --color-tile: #1c1c1e;
+  --color-card: #1c1c1e;
+  --color-fg: #f5f5f7;
+  --color-muted: #8e8e93;
+  --color-control: rgba(255, 255, 255, 0.08);
+  --color-line: rgba(255, 255, 255, 0.12);
+}
+
+/* distortion-waves pictures its root element by diffing computed styles
+ * against UA defaults. Tailwind's preflight reset (`* { border: 0 solid }`)
+ * makes it emit `border-style: solid` without a width, which the picture
+ * renders as a 3px `medium` border on every element — including the wave's
+ * own root and layer wrappers, which shifts the whole picture 6px against the
+ * live DOM (seen as a jump when the wave hands back to the DOM at the end).
+ * Default the wave and everything in it to no border (utilities win over
+ * components, so real borders opt back in):
+ *   - a full border: `border border-solid` (all four sides have a width);
+ *   - row separators: `wave-divide-y` below, NOT `divide-y divide-solid` —
+ *     that one makes all four sides `solid` with a width on one only, and the
+ *     picture draws the three zero-width sides at 3px. */
+@layer components {
+  [data-distortion-wave],
+  [data-distortion-wave] * {
+    border-style: none;
+  }
+}
+
+/* Row separators that are safe in the wave's picture: only the bottom side is
+ * ever `solid`. The colour comes from `divide-[…]` as usual. */
+@utility wave-divide-y {
+  & > :not(:last-child) {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* ------------------------------------------------------------------ *
+ * Pointer: the Figma arrow stands in for the system default cursor.
+ *
+ * Assets are in public/cursor, both 29x32 and trimmed to the same box so the
+ * hotspot fits either one. The SVG goes first: it is vector, so it stays
+ * crisp on retina. Safari is the reason the PNG is there at all — it does not
+ * support SVG cursors and falls through to the next candidate in the list.
+ * (The art is 396x433 at source; a cursor image over 128x128 is ignored, so
+ * both files carry the drawn size, not the original one.)
+ *
+ * `1 0` is the hotspot — the tip of the arrow, in the image's own pixels.
+ *
+ * Two declarations, on purpose. The first is plain url() syntax every
+ * browser can parse; the second repeats it with image-set() so Safari 17+,
+ * which skips the SVG, still gets the 2x bitmap at the same 29x32 drawn size
+ * (a bare 2x PNG would just render twice as big). A browser that cannot parse
+ * image-set() drops that declaration and keeps the first — that is the point
+ * of writing both.
+ *
+ * The arrow is declared once on `html` and inherited from there; the rule
+ * under it hands the inheritance back from everything that sets a cursor of
+ * its own, so the arrow also covers links and every `cursor-pointer` button.
+ * ------------------------------------------------------------------ */
+html {
+  cursor: url("/cursor/figma-cursor.svg") 1 0,
+    url("/cursor/figma-cursor.png") 1 0, default;
+  cursor: url("/cursor/figma-cursor.svg") 1 0,
+    image-set(
+      url("/cursor/figma-cursor.png") 1x,
+      url("/cursor/figma-cursor@2x.png") 2x
+    ) 1 0, default;
+}
+
+/* The arrow on everything, `cursor-pointer` buttons and the ported cards'
+ * own `cursor: pointer` included. `!important` is what that takes: those
+ * cards inject their CSS from inside <body>, later in document order than
+ * this file, so matching them on specificity alone would not hold. It is
+ * confined to this one property.
+ *
+ * Form fields are the exception, and `input` covers two cases at once: the
+ * caret in a text field, and the grab hand on the focus card's range slider.
+ * Both say something the arrow cannot. `body *` and not `*`, so the rule
+ * never reaches <html> itself — inheriting there would resolve to `auto`
+ * and undo the block above. */
+body *:not(input, textarea, [contenteditable="true"]) {
+  cursor: inherit !important;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
