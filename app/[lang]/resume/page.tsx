@@ -2,18 +2,34 @@ import type { Metadata } from "next";
 import { IconDownload } from "@tabler/icons-react";
 import PageShell, { Section } from "@/components/site/PageShell";
 import { CV } from "@/lib/site";
-import { PROFILE, EXPERIENCE, SKILLS, EDUCATION } from "@/lib/cv";
+import { getCV } from "@/lib/cv";
+import { LOCALES, alternatesFor, hasLocale } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
+import { langFrom } from "@/lib/locale";
 
-export const metadata: Metadata = {
-  title: "Resume",
-  description:
-    "Five years of UX/UI development: design lead at Cloudgenia, A/B testing at Zeeto in the US, enterprise front-end at CBQA. Full experience, skills and education.",
-  alternates: { canonical: "/resume" },
-};
+export async function generateMetadata(
+  props: PageProps<"/[lang]/resume">,
+): Promise<Metadata> {
+  const { lang } = await props.params;
+  if (!hasLocale(lang)) return {};
+  const t = getDictionary(lang).resume;
+  return {
+    title: t.title,
+    description: t.description,
+    alternates: alternatesFor(lang, "/resume"),
+  };
+}
 
-export default function ResumePage() {
+export default async function ResumePage(props: PageProps<"/[lang]/resume">) {
+  const lang = await langFrom(props.params);
+  const t = getDictionary(lang).resume;
+  const { PROFILE, EXPERIENCE, SKILLS, EDUCATION } = getCV(lang);
+  /* The PDF in the page's language is the primary button; the other language
+   * sits next to it as the secondary one. */
+  const other = LOCALES.find((l) => l !== lang)!;
+
   return (
-    <PageShell title="Resume">
+    <PageShell lang={lang} title={t.title}>
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="font-display text-4xl font-semibold tracking-tighter text-black">
@@ -28,20 +44,23 @@ export default function ResumePage() {
          * CVs actually wants. */}
         <div className="flex shrink-0 items-center gap-2">
           <a
-            href={CV.en.href}
+            href={CV[lang].href}
             download
             className="flex items-center gap-2 rounded-lg bg-[#026edb] px-4 py-2 text-sm font-medium text-white shadow-xs transition-colors hover:bg-[#0263c5]"
           >
             <IconDownload size={16} />
-            PDF · {CV.en.label}
+            PDF · {CV[lang].label}
           </a>
           <a
-            href={CV.es.href}
+            href={CV[other].href}
             download
+            /* The label is in the other language, so say so to a screen
+             * reader — same reason as the sidebar's language row. */
+            lang={other}
             className="flex items-center gap-2 rounded-lg bg-control px-4 py-2 text-sm font-medium text-[#42413F] transition-colors hover:bg-blue-50 hover:text-blue-600"
           >
             <IconDownload size={16} />
-            {CV.es.label}
+            {CV[other].label}
           </a>
         </div>
       </header>
@@ -65,13 +84,13 @@ export default function ResumePage() {
       </p>
 
       <div className="mt-10">
-        <Section label="Summary">
+        <Section label={t.summary}>
           <p className="text-base leading-relaxed text-[#42413F]">
             {PROFILE.summary}
           </p>
         </Section>
 
-        <Section label="Experience">
+        <Section label={t.experience}>
           <div className="flex flex-col gap-8">
             {EXPERIENCE.map(({ company, title, meta, period, bullets }) => (
               <article key={company}>
@@ -98,7 +117,7 @@ export default function ResumePage() {
           </div>
         </Section>
 
-        <Section label="Skills">
+        <Section label={t.skills}>
           <dl className="flex flex-col gap-4">
             {SKILLS.map(({ label, items }) => (
               <div key={label}>
@@ -111,7 +130,7 @@ export default function ResumePage() {
           </dl>
         </Section>
 
-        <Section label="Education">
+        <Section label={t.education}>
           <div className="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 className="text-base font-medium text-black">
               {EDUCATION.school}

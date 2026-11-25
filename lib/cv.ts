@@ -7,7 +7,18 @@
  * screened and checked against LinkedIn, so this file matches it rather than
  * the other way round. When the Google Doc changes, re-export the PDF and
  * bring the change here in the same pass — a recruiter holding both and
- * finding different dates stops trusting either one. */
+ * finding different dates stops trusting either one.
+ *
+ * This file is the English CV. The Spanish one is cv.es.ts, taken from its
+ * own PDF; pages read whichever applies through getCV() at the bottom. */
+
+import type { Locale } from "./i18n";
+import {
+  PROFILE_ES,
+  EXPERIENCE_ES,
+  EDUCATION_ES,
+  SKILLS_ES,
+} from "./cv.es";
 
 export const PROFILE = {
   name: "Ricardo González Flores",
@@ -193,3 +204,17 @@ export const SKILLS: { label: string; items: string[] }[] = [
     items: ["Spanish (native)", "English (B2)"],
   },
 ];
+
+/* The CV in one language. Pages call this instead of importing the constants
+ * above, so there is exactly one place that decides which document a locale
+ * gets. */
+export function getCV(lang: Locale) {
+  return lang === "es"
+    ? {
+        PROFILE: PROFILE_ES,
+        EXPERIENCE: EXPERIENCE_ES,
+        EDUCATION: EDUCATION_ES,
+        SKILLS: SKILLS_ES,
+      }
+    : { PROFILE, EXPERIENCE, EDUCATION, SKILLS };
+}

@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { IconArrowLeft } from "@tabler/icons-react";
+import { localePath, type Locale } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 
 /* Wrapper for every page that is not the grid.
  *
@@ -12,16 +14,20 @@ import { IconArrowLeft } from "@tabler/icons-react";
  * `title` is the small label next to the button, not an <h1>; each page writes
  * its own heading so the document outline stays correct. */
 export default function PageShell({
+  lang,
   title,
   backHref = "/",
-  backLabel = "Back to the lab",
+  backLabel,
   wide = false,
   children,
 }: {
+  lang: Locale;
   title: string;
-  /* Where the sticky button goes. A project detail points back at the list it
-   * was opened from, not at the grid — one step back, not all the way out. */
+  /* Where the sticky button goes, written without the language prefix — it is
+   * added here. A project detail points back at the list it was opened from,
+   * not at the grid — one step back, not all the way out. */
   backHref?: string;
+  /* Defaults to "Back to the lab" in the page's language. */
   backLabel?: string;
   /* Reading pages want a narrow measure; a project detail needs the width for
    * its two columns. */
@@ -35,7 +41,7 @@ export default function PageShell({
     <div className="page-shell min-h-screen">
       <div className="sticky top-0 z-20 flex items-center gap-3 border-b border-line bg-bg/80 px-6 py-3 backdrop-blur-md">
         <Link
-          href={backHref}
+          href={localePath(lang, backHref)}
           className="group flex items-center gap-2 rounded-lg bg-control px-3 py-1.5 text-sm font-medium text-[#42413F] transition-colors hover:bg-blue-50 hover:text-blue-600"
         >
           <IconArrowLeft
@@ -43,7 +49,7 @@ export default function PageShell({
             stroke={1.75}
             className="transition-transform duration-300 group-hover:-translate-x-0.5"
           />
-          {backLabel}
+          {backLabel ?? getDictionary(lang).shell.backToLab}
         </Link>
         <span className="text-sm text-muted">{title}</span>
       </div>

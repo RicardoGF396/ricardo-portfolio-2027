@@ -8,35 +8,44 @@ import {
   IconMail,
   IconArrowRight,
   IconUserCircle,
+  IconLanguage,
   type TablerIcon,
 } from "@tabler/icons-react";
 
-import { CV } from "@/lib/site";
-
-/* The sidebar's Download button takes the English CV. The /resume page offers
- * both languages — one button here, because the sidebar is already dense. */
-export const RESUME_PDF = CV.en.href;
-
-export const EMAIL = "ricardogf396@gmail.com";
+import { CV, SITE } from "@/lib/site";
+import { LOCALES, LOCALE_NAME, localePath, type Locale } from "@/lib/i18n";
+import { getDictionary, type Dictionary } from "@/lib/dictionaries";
+import LangLink from "./LangLink";
 
 interface NavLinkProps {
-  name: string;
-  link: string;
+  /* Which label in the dictionary's `nav` block this row shows. */
+  key: keyof Dictionary["nav"];
+  /* Written without the language prefix; localePath adds it at render. */
+  path: string;
   /* The component itself, not JSX: `IconUser`, never `<IconUser />`. The
    * element gets created at render, so each item can size or colour it. */
   icon: TablerIcon;
 }
 
 const navLinks: NavLinkProps[] = [
-  { name: "Resume", link: "/resume", icon: IconFileText },
-  { name: "About", link: "/about", icon: IconUserCircle },
-  { name: "Projects", link: "/projects", icon: IconFolder },
-  { name: "Contact", link: "/contact", icon: IconMail },
+  { key: "resume", path: "/resume", icon: IconFileText },
+  { key: "about", path: "/about", icon: IconUserCircle },
+  { key: "projects", path: "/projects", icon: IconFolder },
+  { key: "contact", path: "/contact", icon: IconMail },
 ];
+
+/* Shared by the four page rows and the language row, so the switch reads as
+ * one more entry in the list rather than a separate control. */
+const ROW =
+  "w-full group flex items-center justify-between font-medium transition-all duration-300 hover:text-blue-600 max-lg:text-sm lg:pr-6 lg:hover:bg-blue-50 lg:hover:pr-4";
+const ROW_LABEL = "flex items-center gap-2 py-3 lg:px-4 lg:py-2";
+const ROW_ICON =
+  "text-gray-600 transition-colors duration-300 group-hover:text-blue-600 max-sm:hidden";
 
 /* The left column: it lives in the root layout, so it survives navigation and
  * only the centre column swaps. Nothing here is route-aware on purpose —
- * keeping it a server component means no JS ships for the shell.
+ * keeping it a server component means no JS ships for the shell. The single
+ * exception is LangLink, which has to know the current path.
  *
  * From lg up it is the sticky full-height column. Under lg the shell stacks,
  * and this becomes the page header, which changes three things:
@@ -47,7 +56,13 @@ const navLinks: NavLinkProps[] = [
  *     the page a full screen down on every visit. That is done in CSS with
  *     `:has()` against PageShell's `.page-shell`, so it stays a server
  *     component and still ships no JS. */
-export default function Sidebar() {
+export default function Sidebar({ lang }: { lang: Locale }) {
+  const dict = getDictionary(lang);
+  /* The language this page is NOT in — what the switch row offers. With two
+   * locales that is one link; it is labelled in its own language so someone
+   * who cannot read this page can still find it. */
+  const other = LOCALES.find((l) => l !== lang)!;
+
   return (
     /* Width comes from the shell's grid track now, not a column span. */
     <div>
@@ -58,12 +73,10 @@ export default function Sidebar() {
               <Image fill sizes="40px" alt="Ricardo" src="/images/its me.jpeg" />
             </div>
             <div className="min-w-0">
-              <Link href="/" className="font-medium text-sm">
-                Ricardo González Flores
+              <Link href={localePath(lang)} className="font-medium text-sm">
+                {SITE.name}
               </Link>
-              <p className="text-sm text-[#42413F]">
-                UX/UI Developer · Design Systems
-              </p>
+              <p className="text-sm text-[#42413F]">{dict.site.role}</p>
             </div>
           </div>
 
@@ -103,14 +116,10 @@ export default function Sidebar() {
                 a tablet it has the full width and can be larger than in the
                 240px column that follows at lg. */}
             <h1 className="font-display font-semibold text-5xl sm:text-6xl lg:text-5xl xl:text-7xl text-black tracking-tighter">
-              I design it, then I build it.
+              {dict.sidebar.hero}
             </h1>
             <p className="text-lg font-display text-[#42413F]">
-              I&apos;m a UX/UI developer — I design the interface in Figma, then
-              ship it myself. React and Angular on the web; Flutter, React
-              Native and Swift on mobile. Five years on both sides of the
-              handoff; most recently I led the design team behind 12 government
-              platforms in a single year.
+              {dict.sidebar.intro}
             </p>
           </div>
           {/* `whitespace-nowrap` so a label never breaks mid-button, and
@@ -118,44 +127,39 @@ export default function Sidebar() {
            * when the track is narrow. */}
           <div className="flex flex-wrap items-center gap-3">
             <a
-              href={`mailto:${EMAIL}`}
+              href={`mailto:${SITE.email}`}
               className="bg-[#026edb] cursor-pointer hover:bg-[#0263c5] shadow-xs flex shrink-0 items-center gap-2 whitespace-nowrap font-medium text-lg px-4 py-1 rounded-lg text-white"
             >
               <IconMessage size={18} />
-              Let&apos;s talk
+              {dict.sidebar.talk}
             </a>
+            {/* The CV in the language of the page. /resume offers both — one
+             * button here, because the sidebar is already dense. */}
             <a
-              href={RESUME_PDF}
+              href={CV[lang].href}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#ECECEC] cursor-pointer hover:bg-[#e3e2e2] shadow-xs flex shrink-0 items-center gap-2 whitespace-nowrap font-medium text-lg px-4 py-1 rounded-lg text-[#42413F]"
             >
               <IconDownload size={18} />
-              Download Resume
+              {dict.sidebar.downloadResume}
             </a>
           </div>
         </div>
 
-        {/* One row of four under lg, the stacked list from lg up. The row
-         * drops the icons below sm and the arrows always: four labels with
+        {/* One row of five under lg, the stacked list from lg up. The row
+         * drops the icons below sm and the arrows always: the labels with
          * both do not fit across a 375px phone. */}
         <nav className="order-2 lg:order-none">
           <ul className="flex items-center justify-between border-y border-line lg:block lg:border-y-0">
-            {navLinks.map(({ name, link, icon: Icon }) => (
-              <li key={link} className="lg:border-b lg:border-line">
+            {navLinks.map(({ key, path, icon: Icon }) => (
+              <li key={path} className="lg:border-b lg:border-line">
                 {/* The whole row is the link, not just the label — a 40px-tall
                  * target instead of the width of the word. */}
-                <Link
-                  href={link}
-                  className="w-full group flex items-center justify-between font-medium transition-all duration-300 hover:text-blue-600 max-lg:text-sm lg:pr-6 lg:hover:bg-blue-50 lg:hover:pr-4"
-                >
-                  <span className="flex items-center gap-2 py-3 lg:px-4 lg:py-2">
-                    <Icon
-                      stroke={1.75}
-                      size={18}
-                      className="text-gray-600 transition-colors duration-300 group-hover:text-blue-600 max-sm:hidden"
-                    />
-                    {name}
+                <Link href={localePath(lang, path)} className={ROW}>
+                  <span className={ROW_LABEL}>
+                    <Icon stroke={1.75} size={18} className={ROW_ICON} />
+                    {dict.nav[key]}
                   </span>
                   <IconArrowRight
                     stroke={1.5}
@@ -165,6 +169,30 @@ export default function Sidebar() {
                 </Link>
               </li>
             ))}
+
+            {/* The language switch, as the last row. Below sm it is the
+             * two-letter code: the full name is the one label too many for a
+             * phone-width row. */}
+            <li className="lg:border-b lg:border-line">
+              <LangLink
+                to={other}
+                label={LOCALE_NAME[other]}
+                className={ROW}
+              >
+                <span className={ROW_LABEL}>
+                  <IconLanguage stroke={1.75} size={18} className={ROW_ICON} />
+                  <span className="max-sm:hidden">{LOCALE_NAME[other]}</span>
+                  <span className="uppercase sm:hidden" aria-hidden>
+                    {other}
+                  </span>
+                </span>
+                <IconArrowRight
+                  stroke={1.5}
+                  size={18}
+                  className="max-lg:hidden"
+                />
+              </LangLink>
+            </li>
           </ul>
         </nav>
       </div>

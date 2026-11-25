@@ -2,6 +2,8 @@ import Image from "next/image";
 import { IconArrowUpRight } from "@tabler/icons-react";
 import type { Project } from "@/lib/projects";
 import type { Shot } from "@/lib/projectImages";
+import type { Locale } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 
 /* The body of a project write-up, shared by two hosts: the full page at
  * /projects/<slug> and the modal that intercepts it from the list. Keeping one
@@ -13,16 +15,21 @@ import type { Shot } from "@/lib/projectImages";
  * shots would scale well past their source and go soft — it hands this column
  * a max width and centres it. Both default to the page's behaviour. */
 export default function ProjectDetail({
+  lang,
   project,
   shots,
   stickyTop = "md:top-24",
   shotClass = "",
 }: {
+  /* Only for the labels — Year, Status, Built with. The write-up itself
+   * arrives already in this language, from getProject(slug, lang). */
+  lang: Locale;
   project: Project;
   shots: Shot[];
   stickyTop?: string;
   shotClass?: string;
 }) {
+  const t = getDictionary(lang).project;
   const [lead, ...rest] = shots;
 
   return (
@@ -35,7 +42,7 @@ export default function ProjectDetail({
       <div className={`order-2 flex flex-col gap-5 md:order-1 ${shotClass}`}>
         {shots.length === 0 && (
           <div className="grid h-64 place-items-center rounded-2xl bg-tile text-sm text-muted">
-            No screenshots yet — drop them in public/work/{project.slug}/
+            {t.noShots} public/work/{project.slug}/
           </div>
         )}
 
@@ -70,7 +77,7 @@ export default function ProjectDetail({
             src={shot.src}
             width={shot.width}
             height={shot.height}
-            alt={`${project.name} — screen ${i + 2} of ${shots.length}`}
+            alt={t.screenAlt(project.name, i + 2, shots.length)}
             sizes="(max-width: 768px) 100vw, 700px"
             quality={90}
             className="h-auto w-full rounded-2xl bg-tile"
@@ -108,17 +115,17 @@ export default function ProjectDetail({
         )}
 
         <dl className="grid grid-cols-2 gap-2">
-          <Tile label="Year" value={project.year} />
-          {project.status && <Tile label="Status" value={project.status} />}
+          <Tile label={t.year} value={project.year} />
+          {project.status && <Tile label={t.status} value={project.status} />}
           {project.role && (
             <div className="col-span-2">
-              <Tile label="Role" value={project.role} />
+              <Tile label={t.role} value={project.role} />
             </div>
           )}
         </dl>
 
-        {/* "Ver" only renders when there is somewhere to go. A dead primary
-         * button is worse than no button. */}
+        {/* The button only renders when there is somewhere to go. A dead
+         * primary button is worse than no button. */}
         {project.url && (
           <a
             href={project.url}
@@ -126,14 +133,14 @@ export default function ProjectDetail({
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-xl bg-[#026edb] px-4 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-[#0263c5]"
           >
-            Ver
+            {t.view}
             <IconArrowUpRight size={16} stroke={2} />
           </a>
         )}
 
         {project.stack && (
           <div>
-            <p className="text-xs font-medium text-muted">Built with</p>
+            <p className="text-xs font-medium text-muted">{t.builtWith}</p>
             <p className="mt-1 text-sm text-[#42413F]">
               {project.stack.join(" · ")}
             </p>

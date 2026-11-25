@@ -25,6 +25,20 @@ const nextConfig: NextConfig = {
    *
    * `permanent: true` is a 308, which is what tells a search engine to move
    * the credit to the new URL rather than treat it as a temporary detour.
+   *
+   * This site is bilingual under the same /es and /en again, so the old home
+   * and about URLs are simply real pages now and need no rule. What is left
+   * here is only what changed shape: /software/<slug> became /projects/<slug>,
+   * and /design and /photos have no page of their own. Each rule stays inside
+   * its language — an old Spanish link lands on the Spanish page.
+   *
+   * There is deliberately NO catch-all for /<lang>/:path* any more. When the
+   * site was single-language that rule sent leftovers to the home page; now
+   * it would swallow every real page under /en and /es.
+   *
+   * URLs with no language at all (/about, /projects/naveo) are not handled
+   * here either: where they go depends on the visitor's browser, so proxy.ts
+   * redirects them. These run before it.
    * ------------------------------------------------------------------ */
   async redirects() {
     const langs = ["es", "en"];
@@ -43,27 +57,34 @@ const nextConfig: NextConfig = {
     ];
 
     return langs.flatMap((lang) => [
-      { source: `/${lang}`, destination: "/", permanent: true },
-      { source: `/${lang}/about`, destination: "/about", permanent: true },
       /* No equivalent pages yet — send them somewhere useful rather than
          nowhere. Revisit if /design or /photos ever get built. */
-      { source: `/${lang}/design`, destination: "/projects", permanent: true },
-      { source: `/${lang}/photos`, destination: "/about", permanent: true },
+      {
+        source: `/${lang}/design`,
+        destination: `/${lang}/projects`,
+        permanent: true,
+      },
+      {
+        source: `/${lang}/photos`,
+        destination: `/${lang}/about`,
+        permanent: true,
+      },
       {
         source: `/${lang}/software/shopfloor-managment`,
-        destination: "/projects/shopfloor-management",
+        destination: `/${lang}/projects/shopfloor-management`,
         permanent: true,
       },
       ...projects.map((slug) => ({
         source: `/${lang}/software/${slug}`,
-        destination: `/projects/${slug}`,
+        destination: `/${lang}/projects/${slug}`,
         permanent: true,
       })),
-      /* Anything else under the old language prefix at least lands on a real
-         page instead of a 404. Keep this last: the specific rules above win. */
+      /* The old section index, and any old case study not in the list above,
+         land on the project list rather than a 404. Keep this last: the
+         specific rules above win. */
       {
-        source: `/${lang}/:path*`,
-        destination: "/",
+        source: `/${lang}/software/:path*`,
+        destination: `/${lang}/projects`,
         permanent: true,
       },
     ]);

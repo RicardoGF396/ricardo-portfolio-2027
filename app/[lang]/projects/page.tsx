@@ -1,45 +1,55 @@
 import type { Metadata } from "next";
 import PageShell from "@/components/site/PageShell";
 import ProjectRow from "@/components/site/ProjectRow";
-import { PROJECTS } from "@/lib/projects";
+import { getProjects } from "@/lib/projects";
 import { PROJECT_IMAGES } from "@/lib/projectImages";
+import { alternatesFor, hasLocale, localePath } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
+import { langFrom } from "@/lib/locale";
 
-export const metadata: Metadata = {
-  title: "Projects",
-  description:
-    "Selected work from 2024 to today: design systems, a native iOS app, government platforms, industrial software and ecommerce — designed and built.",
-  alternates: { canonical: "/projects" },
-};
+export async function generateMetadata(
+  props: PageProps<"/[lang]/projects">,
+): Promise<Metadata> {
+  const { lang } = await props.params;
+  if (!hasLocale(lang)) return {};
+  const t = getDictionary(lang).projects;
+  return {
+    title: t.title,
+    description: t.description,
+    alternates: alternatesFor(lang, "/projects"),
+  };
+}
 
-export default function ProjectsPage() {
+export default async function ProjectsPage(
+  props: PageProps<"/[lang]/projects">,
+) {
+  const lang = await langFrom(props.params);
+  const t = getDictionary(lang).projects;
+
   return (
-    <PageShell title="Projects">
+    <PageShell lang={lang} title={t.title}>
       <h1 className="font-display text-4xl font-semibold tracking-tighter text-black">
-        Selected work
+        {t.heading}
       </h1>
       {/* The second sentence follows the input, not the screen size: the
        * preview in ProjectRow is `mouseOnly`, so a touch device of any width
        * never gets it and "hover" would be an instruction nobody can follow.
        * The hover line is the default; `(hover: none)` swaps in the tap one. */}
       <p className="mt-2 text-base text-[#42413F]">
-        Products I designed, built, or both.{" "}
-        <span className="[@media(hover:none)]:hidden">
-          Hover a linked one to peek at it.
-        </span>
-        <span className="hidden [@media(hover:none)]:inline">
-          Tap a linked one to open it.
-        </span>
+        {t.lead}{" "}
+        <span className="[@media(hover:none)]:hidden">{t.hintHover}</span>
+        <span className="hidden [@media(hover:none)]:inline">{t.hintTap}</span>
       </p>
 
       <ul className="mt-8">
-        {PROJECTS.map(({ year, name, kind, slug }) => (
+        {getProjects(lang).map(({ year, name, kind, slug }) => (
           <li key={`${year}-${name}`} className="border-b border-line">
             {slug ? (
               <ProjectRow
                 year={year}
                 name={name}
                 kind={kind}
-                slug={slug}
+                href={localePath(lang, `/projects/${slug}`)}
                 preview={PROJECT_IMAGES[slug]?.[0]}
               />
             ) : (

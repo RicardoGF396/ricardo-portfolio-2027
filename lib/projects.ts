@@ -7,6 +7,9 @@
  *
  * `url` is the "Ver" button. Leave it null and the button does not render. */
 
+import type { Locale } from "./i18n";
+import { PROJECTS_ES } from "./projects.es";
+
 export interface Project {
   year: string;
   name: string;
@@ -274,6 +277,17 @@ export const PROJECTS: Project[] = [
   },
 ];
 
-export function getProject(slug: string): Project | undefined {
-  return PROJECTS.find((p) => p.slug === slug);
+/* The list in one language. PROJECTS above is the English source and the only
+ * place a project is declared; Spanish is laid over it from projects.es.ts,
+ * field by field, so anything not yet translated shows in English rather than
+ * vanishing. Order, slugs, stack and urls are identical in both. */
+export function getProjects(lang: Locale): Project[] {
+  if (lang === "en") return PROJECTS;
+  return PROJECTS.map((project) =>
+    project.slug ? { ...project, ...PROJECTS_ES[project.slug] } : project,
+  );
+}
+
+export function getProject(slug: string, lang: Locale): Project | undefined {
+  return getProjects(lang).find((p) => p.slug === slug);
 }

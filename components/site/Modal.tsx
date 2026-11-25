@@ -29,7 +29,15 @@ import { IconX } from "@tabler/icons-react";
  * own back button close it. Escape, the X and Back are the three ways out:
  * click-outside went away with the card, since the sheet is now the whole
  * screen and there is no outside left to click. */
-export default function Modal({ children }: { children: ReactNode }) {
+export default function Modal({
+  closeLabel,
+  children,
+}: {
+  /* The close button's accessible name, in the page's language. Passed in
+   * because this is a client component and the dictionaries stay server-side. */
+  closeLabel: string;
+  children: ReactNode;
+}) {
   const router = useRouter();
   const ref = useRef<HTMLDialogElement>(null);
 
@@ -67,7 +75,7 @@ export default function Modal({ children }: { children: ReactNode }) {
           <button
             type="button"
             onClick={close}
-            aria-label="Close"
+            aria-label={closeLabel}
             /* Content scrolls under this now that there is no card to sit on,
              * so it needs an edge of its own to stay legible. */
             className="absolute right-4 top-4 grid size-9 place-items-center rounded-full bg-white/80 text-[#42413F] ring-1 ring-black/10 backdrop-blur transition-colors hover:bg-blue-50 hover:text-blue-600 hover:ring-blue-200 md:right-6 md:top-6"

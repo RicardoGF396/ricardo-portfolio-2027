@@ -1,5 +1,7 @@
 import { SITE, SITE_URL } from "@/lib/site";
-import { EXPERIENCE } from "@/lib/cv";
+import { getCV } from "@/lib/cv";
+import { localePath, type Locale } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 
 /* Structured data describing who this site is about.
  *
@@ -10,9 +12,16 @@ import { EXPERIENCE } from "@/lib/cv";
  *
  * Rendered as a plain <script> rather than next/script: it has to be in the
  * server-rendered HTML, because crawlers read the first response and most do
- * not wait for client-side injection. */
-export default function PersonSchema() {
-  const current = EXPERIENCE[0];
+ * not wait for client-side injection.
+ *
+ * The Person keeps one `@id` across both languages — it is the same person —
+ * while the ProfilePage gets one per language, each declaring `inLanguage`.
+ * That is what lets an engine treat /en and /es as two views of one entity
+ * rather than two people with the same name. */
+export default function PersonSchema({ lang }: { lang: Locale }) {
+  const dict = getDictionary(lang);
+  const current = getCV(lang).EXPERIENCE[0];
+  const pageUrl = `${SITE_URL}${localePath(lang)}`;
 
   const person = {
     "@context": "https://schema.org",
@@ -21,10 +30,10 @@ export default function PersonSchema() {
     name: SITE.name,
     givenName: "Ricardo",
     familyName: "González Flores",
-    url: SITE_URL,
+    url: pageUrl,
     image: `${SITE_URL}/opengraph-image.png`,
-    jobTitle: SITE.jobTitle,
-    description: SITE.description,
+    jobTitle: dict.site.jobTitle,
+    description: dict.site.description,
     email: `mailto:${SITE.email}`,
     sameAs: SITE.sameAs,
     knowsAbout: SITE.knowsAbout,
@@ -48,11 +57,11 @@ export default function PersonSchema() {
   const page = {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    "@id": `${SITE_URL}/#page`,
-    url: SITE_URL,
-    name: `${SITE.name} — ${SITE.jobTitle}`,
-    description: SITE.description,
-    inLanguage: "en",
+    "@id": `${pageUrl}#page`,
+    url: pageUrl,
+    name: `${SITE.name} — ${dict.site.jobTitle}`,
+    description: dict.site.description,
+    inLanguage: lang,
     mainEntity: { "@id": `${SITE_URL}/#person` },
   };
 

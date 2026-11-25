@@ -1,7 +1,9 @@
 import Image from "next/image";
-import { PROFILE } from "@/lib/cv";
+import { getCV } from "@/lib/cv";
+import type { Locale } from "@/lib/i18n";
 
-export default function ProfileCard() {
+export default function ProfileCard({ lang }: { lang: Locale }) {
+  const { PROFILE } = getCV(lang);
   const COVER: string | null = null;
   const AVATAR = "/images/its me.jpeg";
 

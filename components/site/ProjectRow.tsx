@@ -30,13 +30,15 @@ export default function ProjectRow({
   year,
   name,
   kind,
-  slug,
+  href,
   preview,
 }: {
   year: string;
   name: string;
   kind: string;
-  slug: string;
+  /* Built by the page, language prefix included. This is a client component
+   * and has no business knowing which locale it is in. */
+  href: string;
   preview?: Shot;
 }) {
   const [open, setOpen] = useState(false);
@@ -68,7 +70,7 @@ export default function ProjectRow({
       <Link
         ref={refs.setReference}
         {...getReferenceProps()}
-        href={`/projects/${slug}`}
+        href={href}
         className="group -mx-3 grid grid-cols-[3.5rem_1fr_auto] items-baseline gap-4 px-3 py-3 transition-colors hover:bg-blue-50"
       >
         <span className="text-sm text-muted">{year}</span>
