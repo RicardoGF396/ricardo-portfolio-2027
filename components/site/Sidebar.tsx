@@ -8,14 +8,13 @@ import {
   IconMail,
   IconArrowRight,
   IconUserCircle,
-  IconLanguage,
   type TablerIcon,
 } from "@tabler/icons-react";
 
 import { CV, SITE } from "@/lib/site";
-import { LOCALES, LOCALE_NAME, localePath, type Locale } from "@/lib/i18n";
+import { localePath, type Locale } from "@/lib/i18n";
 import { getDictionary, type Dictionary } from "@/lib/dictionaries";
-import LangLink from "./LangLink";
+import LangToggle from "./LangToggle";
 
 interface NavLinkProps {
   /* Which label in the dictionary's `nav` block this row shows. */
@@ -34,8 +33,7 @@ const navLinks: NavLinkProps[] = [
   { key: "contact", path: "/contact", icon: IconMail },
 ];
 
-/* Shared by the four page rows and the language row, so the switch reads as
- * one more entry in the list rather than a separate control. */
+/* The page rows' classes, named so the JSX below stays readable. */
 const ROW =
   "w-full group flex items-center justify-between font-medium transition-all duration-300 hover:text-blue-600 max-lg:text-sm lg:pr-6 lg:hover:bg-blue-50 lg:hover:pr-4";
 const ROW_LABEL = "flex items-center gap-2 py-3 lg:px-4 lg:py-2";
@@ -45,7 +43,13 @@ const ROW_ICON =
 /* The left column: it lives in the root layout, so it survives navigation and
  * only the centre column swaps. Nothing here is route-aware on purpose —
  * keeping it a server component means no JS ships for the shell. The single
- * exception is LangLink, which has to know the current path.
+ * exception is the link inside LangToggle, which has to know the current path.
+ *
+ * The EN | ES toggle is rendered twice and each copy is hidden at the other's
+ * breakpoint: beside the call-to-action buttons from lg up, and at the end of
+ * the nav row under lg. One place cannot serve both — the button row is part
+ * of the hero, which inner pages fold away on small screens, and the nav row
+ * turns into a stacked list of pages on large ones.
  *
  * From lg up it is the sticky full-height column. Under lg the shell stacks,
  * and this becomes the page header, which changes three things:
@@ -58,10 +62,6 @@ const ROW_ICON =
  *     component and still ships no JS. */
 export default function Sidebar({ lang }: { lang: Locale }) {
   const dict = getDictionary(lang);
-  /* The language this page is NOT in — what the switch row offers. With two
-   * locales that is one link; it is labelled in its own language so someone
-   * who cannot read this page can still find it. */
-  const other = LOCALES.find((l) => l !== lang)!;
 
   return (
     /* Width comes from the shell's grid track now, not a column span. */
@@ -144,12 +144,19 @@ export default function Sidebar({ lang }: { lang: Locale }) {
               <IconDownload size={18} />
               {dict.sidebar.downloadResume}
             </a>
+            {/* The large-screen copy of the language toggle. */}
+            <LangToggle
+              lang={lang}
+              label={dict.shell.language}
+              className="max-lg:hidden"
+            />
           </div>
         </div>
 
-        {/* One row of five under lg, the stacked list from lg up. The row
-         * drops the icons below sm and the arrows always: the labels with
-         * both do not fit across a 375px phone. */}
+        {/* One row under lg — four pages and the language toggle — and the
+         * stacked list of pages from lg up. The row drops the icons below sm
+         * and the arrows always: the labels with both do not fit across a
+         * 375px phone. */}
         <nav className="order-2 lg:order-none">
           <ul className="flex items-center justify-between border-y border-line lg:block lg:border-y-0">
             {navLinks.map(({ key, path, icon: Icon }) => (
@@ -170,28 +177,10 @@ export default function Sidebar({ lang }: { lang: Locale }) {
               </li>
             ))}
 
-            {/* The language switch, as the last row. Below sm it is the
-             * two-letter code: the full name is the one label too many for a
-             * phone-width row. */}
-            <li className="lg:border-b lg:border-line">
-              <LangLink
-                to={other}
-                label={LOCALE_NAME[other]}
-                className={ROW}
-              >
-                <span className={ROW_LABEL}>
-                  <IconLanguage stroke={1.75} size={18} className={ROW_ICON} />
-                  <span className="max-sm:hidden">{LOCALE_NAME[other]}</span>
-                  <span className="uppercase sm:hidden" aria-hidden>
-                    {other}
-                  </span>
-                </span>
-                <IconArrowRight
-                  stroke={1.5}
-                  size={18}
-                  className="max-lg:hidden"
-                />
-              </LangLink>
+            {/* The small-screen copy of the language toggle, at the end of
+             * the row. Gone from lg up, where the list is pages only. */}
+            <li className="lg:hidden">
+              <LangToggle lang={lang} label={dict.shell.language} size="sm" />
             </li>
           </ul>
         </nav>

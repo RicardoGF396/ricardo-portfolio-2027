@@ -22,8 +22,8 @@ export default function LangLink({
   children,
 }: {
   to: Locale;
-  /* The accessible name. The visible label shrinks to a two-letter code on
-   * small screens, and "ES" read aloud says nothing about what it does. */
+  /* The accessible name. What is drawn is a two-letter code, and "ES" read
+   * aloud says nothing about what it does; this is the language's own name. */
   label: string;
   className?: string;
   children: ReactNode;
