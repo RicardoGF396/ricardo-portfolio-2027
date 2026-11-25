@@ -51,3 +51,15 @@ export const SITE = {
   ],
   alumniOf: "La Salle Bajío University",
 };
+
+/* The CV, served from public/ rather than a bucket: it ships and versions with
+ * the site, so the file a visitor downloads is always the one this deploy was
+ * built from. The filename is what lands in their Downloads folder, so it
+ * carries the full name rather than "resume.pdf".
+ *
+ * Each is exported from its own Google Doc — replacing the file here is the
+ * whole update. */
+export const CV = {
+  en: { href: "/Ricardo-Gonzalez-Flores-CV-EN.pdf", label: "English" },
+  es: { href: "/Ricardo-Gonzalez-Flores-CV-ES.pdf", label: "Español" },
+};

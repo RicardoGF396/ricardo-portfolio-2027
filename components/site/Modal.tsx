@@ -70,13 +70,18 @@ export default function Modal({ children }: { children: ReactNode }) {
             aria-label="Close"
             /* Content scrolls under this now that there is no card to sit on,
              * so it needs an edge of its own to stay legible. */
-            className="absolute right-6 top-6 grid size-9 place-items-center rounded-full bg-white/80 text-[#42413F] ring-1 ring-black/10 backdrop-blur transition-colors hover:bg-blue-50 hover:text-blue-600 hover:ring-blue-200"
+            className="absolute right-4 top-4 grid size-9 place-items-center rounded-full bg-white/80 text-[#42413F] ring-1 ring-black/10 backdrop-blur transition-colors hover:bg-blue-50 hover:text-blue-600 hover:ring-blue-200 md:right-6 md:top-6"
           >
             <IconX size={18} stroke={1.75} />
           </button>
         </div>
 
-        <div className="mx-auto w-[min(1500px,92vw)] pb-16 pt-8">{children}</div>
+        {/* Under md the write-up is one column and its first row — the tags —
+         * runs the full width, straight under the close button. The extra top
+         * padding starts it below the button instead. */}
+        <div className="mx-auto w-[min(1500px,92vw)] pb-16 pt-16 md:pt-8">
+          {children}
+        </div>
       </div>
     </dialog>
   );

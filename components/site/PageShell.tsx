@@ -29,7 +29,10 @@ export default function PageShell({
   children: ReactNode;
 }) {
   return (
-    <div className="min-h-screen">
+    /* `page-shell` carries no styles of its own. It is the marker the sidebar
+     * looks for with `:has()` to know an inner page is on screen and fold its
+     * hero away on small screens — rename it and that stops working. */
+    <div className="page-shell min-h-screen">
       <div className="sticky top-0 z-20 flex items-center gap-3 border-b border-line bg-bg/80 px-6 py-3 backdrop-blur-md">
         <Link
           href={backHref}

@@ -39,8 +39,12 @@ export default function ProjectDetail({
           </div>
         )}
 
+        {/* The 65vh box only exists from md, where the shots sit beside the
+         * aside and the lead is meant to open centred in the viewport. In
+         * one column it just left the image floating in ~150px of empty
+         * space above and below. */}
         {lead && (
-          <div className="flex min-h-[65vh] items-center">
+          <div className="flex items-center md:min-h-[65vh]">
             <Image
               src={lead.src}
               width={lead.width}

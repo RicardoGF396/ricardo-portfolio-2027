@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { IconDownload } from "@tabler/icons-react";
 import PageShell, { Section } from "@/components/site/PageShell";
-import { RESUME_PDF } from "@/components/site/Sidebar";
+import { CV } from "@/lib/site";
 import { PROFILE, EXPERIENCE, SKILLS, EDUCATION } from "@/lib/cv";
 
 export const metadata: Metadata = {
@@ -22,15 +22,28 @@ export default function ResumePage() {
           <p className="mt-1 text-lg text-[#42413F]">{PROFILE.title}</p>
           <p className="text-base text-muted">{PROFILE.tagline}</p>
         </div>
-        <a
-          href={RESUME_PDF}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex shrink-0 items-center gap-2 rounded-lg bg-[#026edb] px-4 py-2 text-sm font-medium text-white shadow-xs transition-colors hover:bg-[#0263c5]"
-        >
-          <IconDownload size={16} />
-          Download PDF
-        </a>
+        {/* Both languages, because half the roles this page is sent to are in
+         * México and half are in the US. `download` makes it save rather than
+         * open in the browser's PDF viewer, which is what someone collecting
+         * CVs actually wants. */}
+        <div className="flex shrink-0 items-center gap-2">
+          <a
+            href={CV.en.href}
+            download
+            className="flex items-center gap-2 rounded-lg bg-[#026edb] px-4 py-2 text-sm font-medium text-white shadow-xs transition-colors hover:bg-[#0263c5]"
+          >
+            <IconDownload size={16} />
+            PDF · {CV.en.label}
+          </a>
+          <a
+            href={CV.es.href}
+            download
+            className="flex items-center gap-2 rounded-lg bg-control px-4 py-2 text-sm font-medium text-[#42413F] transition-colors hover:bg-blue-50 hover:text-blue-600"
+          >
+            <IconDownload size={16} />
+            {CV.es.label}
+          </a>
+        </div>
       </header>
 
       {/* Contact row. The phone number is deliberately not here — it is on the

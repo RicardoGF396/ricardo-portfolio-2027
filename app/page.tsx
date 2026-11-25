@@ -30,8 +30,15 @@ export default function Home() {
      *
      * `columns-[344px]` is a floor in ZOOMED pixels: 320 for the card plus
      * the tiles' p-3. Lower the zoom to fit more columns, raise it to make
-     * everything bigger and fewer fit. */
-    <div className="columns-[344px] gap-5 p-4 [zoom:0.75]">
+     * everything bigger and fewer fit.
+     *
+     * The zoom steps with the shell, and each step is the largest that still
+     * fits a 344px column in what the screen leaves:
+     *   base  0.9   one column on a phone. Not 1: a 360px screen minus
+     *               padding is 336px, and the 320px cards need 344.
+     *   sm    0.85  two columns from 640px, the shell still stacked.
+     *   lg    0.75  beside the sidebar — two columns, three from xl. */
+    <div className="columns-[344px] gap-5 p-3 [zoom:0.9] sm:p-4 sm:[zoom:0.85] lg:[zoom:0.75]">
       {/* First two tiles: the Voice effects from libraries.dev.
           Each GridItem is the container — set its background and padding here. */}
       <GridItem className="bg-tile px-6 pb-4">

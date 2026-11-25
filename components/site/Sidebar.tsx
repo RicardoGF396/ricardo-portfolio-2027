@@ -11,10 +11,11 @@ import {
   type TablerIcon,
 } from "@tabler/icons-react";
 
-/* Hosted CV. The Download button points straight at it, so the file can be
- * replaced at the bucket without touching the app. */
-export const RESUME_PDF =
-  "https://ahmbzaaiwzglvhtpotvp.supabase.co/storage/v1/object/public/portafolio/Ricardo_Gonzalez_Flores_Resume.pdf";
+import { CV } from "@/lib/site";
+
+/* The sidebar's Download button takes the English CV. The /resume page offers
+ * both languages — one button here, because the sidebar is already dense. */
+export const RESUME_PDF = CV.en.href;
 
 export const EMAIL = "ricardogf396@gmail.com";
 
@@ -35,18 +36,28 @@ const navLinks: NavLinkProps[] = [
 
 /* The left column: it lives in the root layout, so it survives navigation and
  * only the centre column swaps. Nothing here is route-aware on purpose —
- * keeping it a server component means no JS ships for the shell. */
+ * keeping it a server component means no JS ships for the shell.
+ *
+ * From lg up it is the sticky full-height column. Under lg the shell stacks,
+ * and this becomes the page header, which changes three things:
+ *   - no `h-screen` / `sticky`: stacked, that was a whole empty screen to
+ *     scroll past before the content;
+ *   - the nav moves up under the name (`order-2`) and lies flat as one row;
+ *   - the hero only shows on the home grid. On an inner page it would push
+ *     the page a full screen down on every visit. That is done in CSS with
+ *     `:has()` against PageShell's `.page-shell`, so it stays a server
+ *     component and still ships no JS. */
 export default function Sidebar() {
   return (
     /* Width comes from the shell's grid track now, not a column span. */
     <div>
-      <div className="sticky top-0 flex h-screen w-full flex-col justify-between gap-4 p-6 2xl:px-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="relative size-10 rounded-full overflow-hidden">
-              <Image fill alt="Ricardo" src="/images/its me.jpeg" />
+      <div className="flex w-full flex-col gap-5 p-6 lg:sticky lg:top-0 lg:h-screen lg:justify-between lg:gap-4 2xl:px-8">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-3 lg:gap-4">
+            <div className="relative size-10 shrink-0 rounded-full overflow-hidden">
+              <Image fill sizes="40px" alt="Ricardo" src="/images/its me.jpeg" />
             </div>
-            <div>
+            <div className="min-w-0">
               <Link href="/" className="font-medium text-sm">
                 Ricardo González Flores
               </Link>
@@ -56,7 +67,7 @@ export default function Sidebar() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <Link
               href="https://www.linkedin.com/in/ricardogf396/"
               target="_blank"
@@ -86,12 +97,12 @@ export default function Sidebar() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="order-3 flex max-w-2xl flex-col gap-8 pt-2 lg:order-none lg:max-w-none lg:pt-0 max-lg:[body:has(.page-shell)_&]:hidden">
           <div className="flex flex-col gap-4">
-            {/* The hero steps with its track. The 8xl only reads once the
-                sidebar reaches 380px at 2xl; at 260–300px it would set one
-                word per line. */}
-            <h1 className="font-display font-semibold text-5xl xl:text-7xl text-black tracking-tighter">
+            {/* The hero steps with its track, not with the screen: stacked on
+                a tablet it has the full width and can be larger than in the
+                240px column that follows at lg. */}
+            <h1 className="font-display font-semibold text-5xl sm:text-6xl lg:text-5xl xl:text-7xl text-black tracking-tighter">
               I design it, then I build it.
             </h1>
             <p className="text-lg font-display text-[#42413F]">
@@ -125,25 +136,32 @@ export default function Sidebar() {
           </div>
         </div>
 
-        <nav>
-          <ul>
+        {/* One row of four under lg, the stacked list from lg up. The row
+         * drops the icons below sm and the arrows always: four labels with
+         * both do not fit across a 375px phone. */}
+        <nav className="order-2 lg:order-none">
+          <ul className="flex items-center justify-between border-y border-line lg:block lg:border-y-0">
             {navLinks.map(({ name, link, icon: Icon }) => (
-              <li key={link} className="border-b border-line">
+              <li key={link} className="lg:border-b lg:border-line">
                 {/* The whole row is the link, not just the label — a 40px-tall
                  * target instead of the width of the word. */}
                 <Link
                   href={link}
-                  className="w-full group flex items-center justify-between font-medium transition-all duration-300 pr-6 hover:pr-4 hover:bg-blue-50 hover:text-blue-600"
+                  className="w-full group flex items-center justify-between font-medium transition-all duration-300 hover:text-blue-600 max-lg:text-sm lg:pr-6 lg:hover:bg-blue-50 lg:hover:pr-4"
                 >
-                  <span className="flex items-center gap-2 py-2 px-4">
+                  <span className="flex items-center gap-2 py-3 lg:px-4 lg:py-2">
                     <Icon
                       stroke={1.75}
                       size={18}
-                      className="text-gray-600 transition-colors duration-300 group-hover:text-blue-600"
+                      className="text-gray-600 transition-colors duration-300 group-hover:text-blue-600 max-sm:hidden"
                     />
                     {name}
                   </span>
-                  <IconArrowRight stroke={1.5} size={18} />
+                  <IconArrowRight
+                    stroke={1.5}
+                    size={18}
+                    className="max-lg:hidden"
+                  />
                 </Link>
               </li>
             ))}

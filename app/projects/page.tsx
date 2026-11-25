@@ -17,8 +17,18 @@ export default function ProjectsPage() {
       <h1 className="font-display text-4xl font-semibold tracking-tighter text-black">
         Selected work
       </h1>
+      {/* The second sentence follows the input, not the screen size: the
+       * preview in ProjectRow is `mouseOnly`, so a touch device of any width
+       * never gets it and "hover" would be an instruction nobody can follow.
+       * The hover line is the default; `(hover: none)` swaps in the tap one. */}
       <p className="mt-2 text-base text-[#42413F]">
-        Products I designed, built, or both. Hover a linked one to peek at it.
+        Products I designed, built, or both.{" "}
+        <span className="[@media(hover:none)]:hidden">
+          Hover a linked one to peek at it.
+        </span>
+        <span className="hidden [@media(hover:none)]:inline">
+          Tap a linked one to open it.
+        </span>
       </p>
 
       <ul className="mt-8">

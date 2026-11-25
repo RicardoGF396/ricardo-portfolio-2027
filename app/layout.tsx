@@ -96,10 +96,15 @@ export default function RootLayout({ children, modal }: LayoutProps<"/">) {
            * app/page.tsx. Zoom is the right tool here rather than a transform:
            * it shrinks layout, so the cards actually occupy less, and fluid
            * content keeps its proportions because its column grows to match.
+           *
+           * Under lg (1024px) there are no two columns at all: the sidebar
+           * becomes a header stacked above the content. A 240px track on a
+           * 375px phone left the content 135px. `grid-rows-[auto_1fr]` keeps
+           * that header at its own height instead of splitting the screen.
            * ────────────────────────────────────────────────────────────── */}
-          <div className="grid min-h-screen w-full grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[500px_minmax(0,1fr)]">
+          <div className="grid min-h-screen w-full grid-cols-1 max-lg:grid-rows-[auto_1fr] lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[500px_minmax(0,1fr)]">
             <Sidebar />
-            <main>{children}</main>
+            <main className="min-w-0">{children}</main>
           </div>
           {/* The @modal slot. Empty on every route except an intercepted
            * /projects/<slug>, where it renders a <dialog> in the browser's top
