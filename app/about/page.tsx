@@ -37,8 +37,8 @@ export default function AboutPage() {
           I lead, too. Through 2026 I ran the design team at Cloudgenia across
           12 projects in a single year for the Government of Guanajuato, and we
           built a component library in Angular that every project after it was
-          made of. Before that, two years at a US product company running A/B
-          experiments — which is where I learned to argue for a design with
+          made of. Before that, a year at a US product company running daily
+          A/B experiments — which is where I learned to argue for a design with
           numbers instead of taste.
         </p>
         {/* The range is the first thing a reader doubts: five years is not
@@ -64,8 +64,8 @@ export default function AboutPage() {
       <div className="mt-12">
         <Section label="Based in">
           <p className="text-base text-[#42413F]">
-            León, Guanajuato, México. I&apos;ve worked remote for a US company
-            for two years, so the timezone is a solved problem.
+            León, Guanajuato, México. I&apos;ve worked remote full-time for a
+            company in San Diego, so the timezone is a solved problem.
           </p>
         </Section>
 

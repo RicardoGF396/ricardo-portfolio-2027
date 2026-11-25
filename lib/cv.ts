@@ -3,10 +3,11 @@
  * /resume renders all of it; /about renders a subset. Keeping one array means
  * the two pages can never drift — edit a bullet here and both update.
  *
- * Merged from two sources that did not agree: the portfolio and an older PDF
- * résumé. The PDF supplied the metrics, but the PORTFOLIO IS AUTHORITATIVE for
- * dates, titles and locations — the PDF's were out of date. See RESUME.md at
- * the repo root for the editable copy. */
+ * THE PDF IN public/ IS AUTHORITATIVE. It is the document that gets emailed,
+ * screened and checked against LinkedIn, so this file matches it rather than
+ * the other way round. When the Google Doc changes, re-export the PDF and
+ * bring the change here in the same pass — a recruiter holding both and
+ * finding different dates stops trusting either one. */
 
 export const PROFILE = {
   name: "Ricardo González Flores",
@@ -19,7 +20,7 @@ export const PROFILE = {
   github: "https://github.com/RicardoGF396",
   website: "https://www.ricardogf.com",
   summary:
-    "UX/UI developer with five years on both sides of the handoff: I design the interface in Figma and then ship it in production code, on web and on mobile. I have moved revenue with A/B testing at a US media company, shipped a native iOS app to the App Store, and spent 2026 leading a design team through twelve platforms for the Government of Guanajuato.",
+    "UX/UI developer with 5+ years on both sides of the handoff: I design the interface in Figma and ship it in production code, on web (React, Next.js, Angular) and mobile (Flutter, React Native, Swift). Moved revenue with daily A/B testing at a US company, shipped a native iOS app to the App Store, and in 2026 led the design team behind 12 platforms for the Government of Guanajuato, built on a shared component library.",
 };
 
 export interface Role {
@@ -33,12 +34,14 @@ export interface Role {
 export const EXPERIENCE: Role[] = [
   {
     company: "Cloudgenia",
-    title: "Fullstack & UX/UI Design Lead",
+    /* The arrow is the point: it reads as a promotion rather than a job
+     * title. Straight from the CV. */
+    title: "UX/UI Design Lead → Fullstack & UX/UI Lead",
     meta: "León, Gto. · On-site · Full-time",
-    period: "2026",
+    period: "Jan 2026 — Nov 2026",
     bullets: [
-      "Responsible for the design and development of 12 projects in one year for the Government of the State of Guanajuato.",
-      "Led the design team, and built a complete component library in Angular together with them — every project after it was made of that library.",
+      "Designed and delivered 12 projects in one year for the Government of the State of Guanajuato; started as Design Lead and expanded the role to also own full-stack development.",
+      "Led the design team and built an in-house design system in Angular 20, integrated with Figma and documented in Storybook, packaged as a library adopted by all development teams.",
       "Ran the full lifecycle of each project: research, design, analysis, prototyping, handoff and implementation.",
       "Coordinated requirements gathering with both the Guanajuato and Cloudgenia teams, led solution analysis, and oversaw component creation in Figma and Angular.",
       "Produced monthly reports and planning sessions that turned scope into concrete sprint-level goals.",
@@ -47,8 +50,8 @@ export const EXPERIENCE: Role[] = [
   {
     company: "Zeeto",
     title: "Front-end Developer & UI/UX Designer",
-    meta: "United States · Remote · Full-time",
-    period: "2024 — 2026",
+    meta: "San Diego, CA, USA · Remote · Full-time",
+    period: "Dec 2024 — Dec 2025",
     bullets: [
       "Ran daily A/B testing experiments, achieving consistent 4–5% RPV improvements across 30+ monetization funnels.",
       "Led development of an internal Ad Generation Platform in Next.js, React, Tailwind, Zustand, ShadCN and Konva.js, deployed on Vercel.",
@@ -62,9 +65,9 @@ export const EXPERIENCE: Role[] = [
     company: "Wicode",
     title: "Frontend Developer & UI/UX Designer Lead",
     meta: "León, Gto. · Hybrid · Contract",
-    period: "2024 — Present",
+    period: "Nov 2024 — Present",
     bullets: [
-      "UI/UX lead for 50+ digital products across logistics, finance, manufacturing and government.",
+      "UI/UX lead for 60+ digital products across logistics, finance, manufacturing, government and ecommerce.",
       "Design visual proposals and complete design systems, from requirements gathering through developer handoff.",
       "A good share of that work is ecommerce: I design the storefront and then build it, checkout included.",
       "Build websites in Framer, and contributed as a developer on an iOS (Swift) project for a pharmacy (ISSEG) in León.",
@@ -85,7 +88,7 @@ export const EXPERIENCE: Role[] = [
     company: "CBQA Solutions",
     title: "Front-end Developer & UI/UX Design Lead",
     meta: "León, Gto. · Hybrid · Full-time",
-    period: "2023 — 2024",
+    period: "Aug 2023 — Sep 2024",
     bullets: [
       "Delivered front-end solutions for enterprise clients including Heineken, Toyota and Orkos.",
       "Developed scalable web applications with React, Next.js, Redux Toolkit and TypeScript.",

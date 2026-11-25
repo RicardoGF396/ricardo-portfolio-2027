@@ -54,8 +54,8 @@ export default function ContactPage() {
 
         <Section label="Where">
           <p className="text-base text-[#42413F]">
-            {PROFILE.location}. I worked remote for a US company for two years,
-            so US hours are nothing new.
+            {PROFILE.location}. I worked remote full-time for a company in San
+            Diego, so US hours are nothing new.
           </p>
         </Section>
 
