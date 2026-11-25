@@ -27,5 +27,8 @@
     "tailwindcss": "4.3.3",
     "typescript": "^5"
   },
-  "description": "Portfolio of Ricardo González Flores — UX/UI Developer."
+  "description": "Portfolio of Ricardo González Flores — UX/UI Developer.",
+  "engines": {
+    "node": ">=22"
+  }
 }
