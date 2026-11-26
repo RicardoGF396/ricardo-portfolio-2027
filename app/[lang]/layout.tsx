@@ -170,8 +170,8 @@ export default async function RootLayout({
            * layer — above the grid and the sidebar both. */}
           {modal}
         </ThemeProvider>
-        {/* Renders nothing; it only loads the analytics script. Last in the
-         * body so it never delays the page painting. */}
+        {/* Renders nothing; it only loads the analytics and Speed Insights
+         * scripts. Last in the body so it never delays the page painting. */}
         <Analytics />
       </body>
     </html>
