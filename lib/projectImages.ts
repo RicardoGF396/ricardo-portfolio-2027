@@ -245,4 +245,17 @@ export const PROJECT_IMAGES: Record<string, Shot[]> = {
     { src: "/work/wicode-base/wicode-base-6.webp", width: 2950, height: 1950 },
     { src: "/work/wicode-base/wicode-base-7.webp", width: 2950, height: 1950 },
   ],
+  "wicode-website": [
+    { src: "/work/wicode-website/wicode-website-1.webp", width: 2950, height: 1950 },
+    { src: "/work/wicode-website/wicode-website-2.webp", width: 2950, height: 1950 },
+    { src: "/work/wicode-website/wicode-website-3.webp", width: 2950, height: 1950 },
+    { src: "/work/wicode-website/wicode-website-4.webp", width: 2950, height: 1950 },
+    { src: "/work/wicode-website/wicode-website-5.webp", width: 2950, height: 1950 },
+    { src: "/work/wicode-website/wicode-website-6.webp", width: 2950, height: 1950 },
+    { src: "/work/wicode-website/wicode-website-7.webp", width: 2950, height: 1950 },
+    { src: "/work/wicode-website/wicode-website-8.webp", width: 2950, height: 1950 },
+    { src: "/work/wicode-website/wicode-website-9.webp", width: 2950, height: 1950 },
+    { src: "/work/wicode-website/wicode-website-10.webp", width: 2950, height: 1950 },
+    { src: "/work/wicode-website/wicode-website-11.webp", width: 2950, height: 1950 },
+  ],
 };

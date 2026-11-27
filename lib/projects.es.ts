@@ -43,6 +43,14 @@ export const PROJECTS_ES: Record<string, Partial<ProjectCopy>> = {
     role: "Diseño y desarrollo",
     status: "En línea — privado",
   },
+  "wicode-website": {
+    kind: "Sitio de empresa",
+    tags: ["Web", "Marketing", "Interactivo"],
+    summary:
+      "El sitio de Wicode, un estudio de software en Le\u00f3n que construye sistemas a la medida para negocios que se le salieron de las manos a Excel y WhatsApp. Dise\u00f1ado y programado a partir de sus requerimientos. La promesa es \u201cdel caos al sistema\u201d, y la p\u00e1gina la argumenta en lugar de afirmarla: una calculadora convierte tres controles \u2014 tama\u00f1o del equipo, horas perdidas por semana y costo por hora \u2014 en lo que cuesta el desorden a una semana, un mes, un a\u00f1o y tres a\u00f1os, se calcula en el navegador sin enviar nada y dice de frente que no promete ahorros. Luego cuatro escenas montan los problemas que nombra, cada una una maqueta funcional de la cosa real: el stock que no coincide con el anaquel, tres cotizaciones por WhatsApp con tres precios, el estatus de entrega que vive en el celular de un chofer y tres versiones del mismo Excel de ventas. Debajo, cuatro servicios, un proceso de cinco pasos anclado al scroll que termina en un alcance firmado, casos en video, el blog del Lab y el flujo para agendar.",
+    role: "Dise\u00f1o y desarrollo \u2014 a partir de sus requerimientos",
+    status: "En beta \u2014 antes del lanzamiento",
+  },
   "wicode-base": {
     kind: "Design system y UI kit de administración",
     tags: ["Design system", "Dashboard", "Interno"],

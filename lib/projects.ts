@@ -94,6 +94,27 @@ export const PROJECTS: Project[] = [
   },
   {
     year: "2026",
+    name: "Wicode Website",
+    kind: "Company site",
+    slug: "wicode-website",
+    tags: ["Web", "Marketing", "Interactive"],
+    summary:
+      "The site for Wicode, a software studio in Le\u00f3n that builds custom systems for businesses which outgrew Excel and WhatsApp. Designed and built to their requirements. The pitch is \u201cfrom chaos to system\u201d, and the page argues it instead of asserting it: a calculator turns three sliders \u2014 team size, hours lost a week, cost per hour \u2014 into what the disorder costs over a week, a month, a year and three years, worked out in the browser with nothing sent anywhere, and says plainly that it promises no savings. Four scenes then stage the problems it names, each a working mock of the real thing: stock that disagrees with the shelf, three WhatsApp quotes at three prices, a delivery status that lives on one driver\u2019s phone, three versions of the same sales spreadsheet. Below that, four services, a five-step process pinned to the scroll that ends in a signed scope, video case studies, the Lab blog and a booking flow.",
+    role: "Design & build \u2014 from their requirements",
+    status: "In beta \u2014 pre-launch",
+    stack: [
+      "Next.js 16",
+      "React",
+      "TypeScript",
+      "Tailwind",
+      "Motion",
+      "Vercel",
+      "Figma",
+    ],
+    url: "https://wicode-website-beta.vercel.app",
+  },
+  {
+    year: "2026",
     name: "Wicode Base",
     kind: "Design system & admin UI kit",
     slug: "wicode-base",
