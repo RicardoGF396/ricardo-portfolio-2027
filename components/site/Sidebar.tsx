@@ -14,7 +14,7 @@ import {
 import { CV, SITE } from "@/lib/site";
 import { localePath, type Locale } from "@/lib/i18n";
 import { getDictionary, type Dictionary } from "@/lib/dictionaries";
-import LangToggle from "./LangToggle";
+import LangSwitch from "./LangSwitch";
 
 interface NavLinkProps {
   /* Which label in the dictionary's `nav` block this row shows. */
@@ -43,13 +43,7 @@ const ROW_ICON =
 /* The left column: it lives in the root layout, so it survives navigation and
  * only the centre column swaps. Nothing here is route-aware on purpose —
  * keeping it a server component means no JS ships for the shell. The single
- * exception is the link inside LangToggle, which has to know the current path.
- *
- * The EN | ES toggle is rendered twice and each copy is hidden at the other's
- * breakpoint: beside the call-to-action buttons from lg up, and at the end of
- * the nav row under lg. One place cannot serve both — the button row is part
- * of the hero, which inner pages fold away on small screens, and the nav row
- * turns into a stacked list of pages on large ones.
+ * exception is the link inside LangSwitch, which has to know the current path.
  *
  * From lg up it is the sticky full-height column. Under lg the shell stacks,
  * and this becomes the page header, which changes three things:
@@ -94,19 +88,7 @@ export default function Sidebar({ lang }: { lang: Locale }) {
                 height={32}
               />
             </Link>
-            <Link
-              href="https://github.com/RicardoGF396"
-              target="_blank"
-              aria-label="GitHub"
-            >
-              <Image
-                className="opacity-70 hover:opacity-90"
-                src="/icons/github.svg"
-                alt="GitHub"
-                width={32}
-                height={32}
-              />
-            </Link>
+            <LangSwitch lang={lang} />
           </div>
         </div>
 
@@ -144,19 +126,12 @@ export default function Sidebar({ lang }: { lang: Locale }) {
               <IconDownload size={18} />
               {dict.sidebar.downloadResume}
             </a>
-            {/* The large-screen copy of the language toggle. */}
-            <LangToggle
-              lang={lang}
-              label={dict.shell.language}
-              className="max-lg:hidden"
-            />
           </div>
         </div>
 
-        {/* One row under lg — four pages and the language toggle — and the
-         * stacked list of pages from lg up. The row drops the icons below sm
-         * and the arrows always: the labels with both do not fit across a
-         * 375px phone. */}
+        {/* One row of four pages under lg, and the stacked list of the same
+         * four from lg up. The row drops the icons below sm and the arrows
+         * always: the labels with both do not fit across a 375px phone. */}
         <nav className="order-2 lg:order-none">
           <ul className="flex items-center justify-between border-y border-line lg:block lg:border-y-0">
             {navLinks.map(({ key, path, icon: Icon }) => (
@@ -176,12 +151,6 @@ export default function Sidebar({ lang }: { lang: Locale }) {
                 </Link>
               </li>
             ))}
-
-            {/* The small-screen copy of the language toggle, at the end of
-             * the row. Gone from lg up, where the list is pages only. */}
-            <li className="lg:hidden">
-              <LangToggle lang={lang} label={dict.shell.language} size="sm" />
-            </li>
           </ul>
         </nav>
       </div>
