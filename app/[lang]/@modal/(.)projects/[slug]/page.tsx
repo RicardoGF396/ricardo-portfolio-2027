@@ -24,10 +24,10 @@ export default async function ProjectModal(
         lang={lang}
         project={project}
         shots={PROJECT_IMAGES[slug] ?? []}
-        stickyTop="md:top-4"
+        stickyTop="md:top-[50dvh] md:-translate-y-1/2"
         /* The sheet is as wide as the screen; the shots are not. Capped and
          * centred in their track, so they never scale past their source. */
-        shotClass="mx-auto w-full max-w-[680px]"
+        shotClass="mx-auto w-full max-w-[560px]"
       />
     </Modal>
   );

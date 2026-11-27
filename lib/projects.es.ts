@@ -15,7 +15,7 @@ export const PROJECTS_ES: Record<string, Partial<ProjectCopy>> = {
     kind: "Librería de componentes en Angular",
     tags: ["Design system", "Angular", "Líder de equipo"],
     summary:
-      "La librería de componentes detrás del trabajo de Cloudgenia para el Gobierno de Guanajuato: 34 componentes de Angular listos para producción, para que doce proyectos dejen de reimplementar el mismo formulario, la misma tabla y la misma navegación con diferencias sutiles. Componentes standalone, Tailwind CSS 4, design tokens y accesibilidad de fábrica, documentados en su propio sitio con ejemplos en vivo, una guía de theming, un set de íconos y un changelog. Lideré al equipo de diseño que la construyó.",
+      "La librería de componentes de Cloudgenia para el Gobierno de Guanajuato: 34 componentes de Angular listos para producción, para que doce proyectos dejen de reimplementar el mismo formulario, tabla y navegación. Standalone, con Tailwind CSS 4, design tokens y accesibilidad de fábrica. Lideré al equipo de diseño que la construyó.",
     role: "Líder de diseño · arquitectura de componentes",
     status: "En producción — privado",
   },

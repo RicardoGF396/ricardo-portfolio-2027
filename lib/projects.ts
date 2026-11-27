@@ -31,7 +31,7 @@ export const PROJECTS: Project[] = [
     slug: "sf-ui",
     tags: ["Design system", "Angular", "Team lead"],
     summary:
-      "The component library behind Cloudgenia's work for the Government of Guanajuato: 34 production-ready Angular components so twelve projects stop reimplementing the same form, table and navigation with subtle differences. Standalone components, Tailwind CSS 4, design tokens and accessibility built in, documented on its own site with live examples, a theming guide, an icon set and a changelog. I led the design team that built it.",
+      "Cloudgenia's component library for the Government of Guanajuato: 34 production-ready Angular components so twelve projects stop reimplementing the same form, table and navigation. Standalone, with Tailwind CSS 4, design tokens and accessibility built in. I led the design team that built it.",
     role: "Design lead · component architecture",
     status: "In production — private",
     stack: [

@@ -63,7 +63,7 @@ export default function Modal({
        * ProjectDetail is shared with the full page, so instead of restyling it
        * the modal redefines the tokens it reads. Hairlines and muted type that
        * work on a solid white card disappear on frosted glass. */
-      className="m-0 h-dvh max-h-none w-screen max-w-none overflow-hidden bg-transparent p-0 backdrop:bg-white/75 backdrop:backdrop-blur-2xl [--aside-w:14rem] [--color-control:rgba(0,0,0,0.08)] [--color-line:rgba(0,0,0,0.16)] [--color-muted:#5f6063]"
+      className="m-0 h-dvh max-h-none w-screen max-w-none overflow-hidden bg-transparent p-0 backdrop:bg-white/60 backdrop:backdrop-blur-2xl [--aside-w:20rem] [--color-control:rgba(0,0,0,0.08)] [--color-line:rgba(0,0,0,0.16)] [--color-muted:#5f6063]"
     >
       {/* The scroll surface is the full sheet, so the wheel answers wherever
        * the pointer is. The close button rides it rather than the content, so
@@ -87,7 +87,7 @@ export default function Modal({
         {/* Under md the write-up is one column and its first row — the tags —
          * runs the full width, straight under the close button. The extra top
          * padding starts it below the button instead. */}
-        <div className="mx-auto w-[min(1500px,92vw)] pb-16 pt-16 md:pt-8">
+        <div className="mx-auto w-[min(940px,90vw)] pb-16 pt-16 md:pt-8">
           {children}
         </div>
       </div>

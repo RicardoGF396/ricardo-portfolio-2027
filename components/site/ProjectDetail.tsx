@@ -35,7 +35,7 @@ export default function ProjectDetail({
   return (
     /* The aside track is a variable so a host can tighten it without a prop:
        the modal sets --aside-w, the page takes the 18rem default. */
-    <div className="grid items-start gap-10 md:grid-cols-[1fr_var(--aside-w,18rem)]">
+    <div className="grid items-start gap-[42px] md:grid-cols-[1fr_var(--aside-w,18rem)]">
       {/* Shots. The first is centred in the viewport so the page opens on the
        * hero image rather than its top edge; the rest stack underneath.
        * `priority` only on the lead — the others are below the fold. */}
