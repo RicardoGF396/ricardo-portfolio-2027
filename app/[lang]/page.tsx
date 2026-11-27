@@ -14,6 +14,41 @@ import EventCard from "@/components/event/EventCard";
 import InviteCard from "@/components/invite/InviteCard";
 import ChartCard from "@/components/chart/ChartCard";
 
+import InView from "@/components/lab/InView";
+/* Kibo UI (kibo-ui.com) */
+import CreditCardDemo from "@/components/lab/credit-card/demo";
+import AnnouncementDemo from "@/components/lab/announcement/demo";
+import ColorPickerDemo from "@/components/lab/color-picker/demo";
+import PillDemo from "@/components/lab/pill/demo";
+/* MagicUI (magicui.design) */
+import MarqueeDemo from "@/components/lab/marquee/demo";
+import TerminalDemo from "@/components/lab/terminal/demo";
+import BentoGridDemo from "@/components/lab/bento-grid/demo";
+import AnimatedListDemo from "@/components/lab/animated-list/demo";
+import GlobeDemo from "@/components/lab/globe/demo";
+import ShineBorderDemo from "@/components/lab/shine-border/demo";
+import MorphingTextDemo from "@/components/lab/morphing-text/demo";
+/* React Bits (reactbits.dev) */
+import TechTextDemo from "@/components/lab/tech-text/demo";
+import ASCIITextDemo from "@/components/lab/ascii-text/demo";
+import LogoLoopDemo from "@/components/lab/logo-loop/demo";
+import StarBorderDemo from "@/components/lab/star-border/demo";
+import DitherVeilDemo from "@/components/lab/dither-veil/demo";
+import LaserFlowDemo from "@/components/lab/laser-flow/demo";
+import StrandsDemo from "@/components/lab/strands/demo";
+import FluidGlassDemo from "@/components/lab/fluid-glass/demo";
+import HoloCardDemo from "@/components/lab/holo-card/demo";
+import ReflectiveCardDemo from "@/components/lab/reflective-card/demo";
+import TiltedCardDemo from "@/components/lab/tilted-card/demo";
+import GlassSurfaceDemo from "@/components/lab/glass-surface/demo";
+import FlexCarouselDemo from "@/components/lab/flex-carousel/demo";
+import FolderDemo from "@/components/lab/folder/demo";
+import PixelCardDemo from "@/components/lab/pixel-card/demo";
+import ClickSparkDemo from "@/components/lab/click-spark/demo";
+import ElasticSliderDemo from "@/components/lab/elastic-slider/demo";
+import VoicePillDemo from "@/components/lab/voice-pill/demo";
+import StatusMarkDemo from "@/components/lab/status-mark/demo";
+
 const WAVE_THEME: WaveTheme = "light";
 
 /* The home route is just the grid now — the sidebar moved to app/layout.tsx so
@@ -108,6 +143,193 @@ export default function Home() {
 
       <GridItem className="bg-tile p-6">
         <VoiceChatInput />
+      </GridItem>
+
+      {/* ═══ Registry components ═══════════════════════════════════════
+          Thirty components vendored from three registries. Each folder
+          under components/lab holds the component exactly as it ships
+          plus a demo.tsx — the demo is what the tile shows, so content
+          goes there and the container goes here, same as above.
+
+          InView wraps the ones that animate on their own. Without it
+          this page ran a dozen canvases and rAF loops at once, nearly
+          all of them off screen; it mounts a demo when its tile comes
+          near and drops it again once it is past, so only what you can
+          see is doing work. `minHeight` is the space the tile holds
+          while the demo is unmounted — if a column jumps as you scroll,
+          that number is the one to fix. */}
+
+
+      {/* ── Kibo UI — kibo-ui.com ── */}
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <CreditCardDemo />
+      </GridItem>
+
+      <GridItem className="bg-tile px-5 py-8">
+        <AnnouncementDemo />
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <ColorPickerDemo />
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-5">
+        <PillDemo />
+      </GridItem>
+
+
+      {/* ── MagicUI — magicui.design ── */}
+
+      <GridItem className="overflow-hidden bg-tile py-6">
+        <MarqueeDemo />
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <InView minHeight={300}>
+          <TerminalDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="bg-tile p-3">
+        <InView minHeight={380}>
+          <BentoGridDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="overflow-hidden bg-tile p-3">
+        <InView minHeight={340}>
+          <AnimatedListDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <InView minHeight={296}>
+          <GlobeDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <ShineBorderDemo />
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <InView minHeight={184}>
+          <MorphingTextDemo />
+        </InView>
+      </GridItem>
+
+
+      {/* ── React Bits — reactbits.dev ── */}
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <InView minHeight={200}>
+          <TechTextDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <InView minHeight={220}>
+          <ASCIITextDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <InView minHeight={111}>
+          <LogoLoopDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <InView minHeight={168}>
+          <StarBorderDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="overflow-hidden">
+        <InView minHeight={280}>
+          <DitherVeilDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="overflow-hidden">
+        <InView minHeight={300}>
+          <LaserFlowDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="overflow-hidden">
+        <InView minHeight={280}>
+          <StrandsDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="overflow-hidden">
+        <InView minHeight={260}>
+          <FluidGlassDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile">
+        <InView minHeight={332}>
+          <HoloCardDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <InView minHeight={360}>
+          <ReflectiveCardDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile">
+        <InView minHeight={260}>
+          <TiltedCardDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="overflow-hidden">
+        <GlassSurfaceDemo />
+      </GridItem>
+
+      <GridItem className="overflow-hidden bg-tile">
+        <InView minHeight={260}>
+          <FlexCarouselDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile">
+        <InView minHeight={240}>
+          <FolderDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <InView minHeight={220}>
+          <PixelCardDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="grid place-items-center bg-tile p-3">
+        <ClickSparkDemo />
+      </GridItem>
+
+      <GridItem className="bg-tile">
+        <ElasticSliderDemo />
+      </GridItem>
+
+      {/* overflow-hidden: the pill paints its slide-to-cancel track outside
+          its own box, which spilled past the tile on a phone. */}
+      <GridItem className="overflow-hidden bg-tile">
+        <InView minHeight={178}>
+          <VoicePillDemo />
+        </InView>
+      </GridItem>
+
+      <GridItem className="bg-tile">
+        <InView minHeight={247}>
+          <StatusMarkDemo />
+        </InView>
       </GridItem>
 
       {/* ─── Dashboard details ──────────────────────────────────────────
@@ -278,6 +500,7 @@ export default function Home() {
           h={636}
           sizes="400px"
           className="block h-full w-auto"
+          cap={false}
           alt="Dark phone messages list with a pinned conversation and a row swiped open to reveal Delete"
         />
       </GridItem>
@@ -306,6 +529,7 @@ export default function Home() {
           h={798}
           sizes="400px"
           className="block h-full w-auto"
+          cap={false}
           alt="Phone send-money screen with a $248.00 amount, a recipient row and a slide-to-send control"
         />
       </GridItem>
@@ -321,6 +545,7 @@ export default function Home() {
           h={782}
           sizes="400px"
           className="block h-full w-auto"
+          cap={false}
           alt="Phone split-bill screen for a $186.40 dinner shared equally between four people"
         />
       </GridItem>
@@ -429,8 +654,9 @@ function Shot({
   alt,
   w,
   h,
-  className = "block h-auto w-full",
+  className = "mx-auto block h-auto w-full",
   sizes = "(max-width: 480px) 100vw, 400px",
+  cap = true,
 }: {
   src: string;
   alt: string;
@@ -441,6 +667,9 @@ function Shot({
    * render far wider than that, and too small a `sizes` is served a file
    * too small to be sharp. */
   sizes?: string;
+  /* Height-driven shots opt out of the width cap below: with `h-full w-auto`
+   * a max-width does not shrink the image, it squashes it. */
+  cap?: boolean;
 }) {
   return (
     <Image
@@ -451,6 +680,22 @@ function Shot({
       quality={90}
       sizes={sizes}
       className={className}
+      /* Never draw a shot larger than its own pixels. Several crops come from
+       * exports that were already small — the Solaris board column is 256px
+       * at source — and a 407px column was stretching them past 2x, which is
+       * what turned their type to mush.
+       *
+       * Two thirds, not the full width, because of the grid: lengths here are
+       * in the [zoom:0.75] space, so `w` CSS px lands on 0.75w of the screen,
+       * and a 2x display then wants 1.5w real pixels — still more than the
+       * file has. 2/3 of w lands on exactly w device pixels at lg, and
+       * oversamples slightly at the larger zooms below it.
+       *
+       * So these tiles now hold a smaller image with space around it. That is
+       * the ceiling of the file, not a setting: the only way to fill the tile
+       * sharply is a bigger export from Figma. The large shots are nowhere
+       * near the cap and do not move. */
+      style={cap ? { maxWidth: Math.round((w * 2) / 3) } : undefined}
     />
   );
 }
